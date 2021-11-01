@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Lukasz Rutkowski - rutkowski.lukasz1@gmail.com">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?id=v1.0">
+	<link rel="stylesheet" href="{{ url_for('static', filename='menu.css') }}?id=v1.0">
+	{% block head -%}{% endblock %}
+</head>
+<body>
+	<div class="top">
+		<ul class="menu cf">
+			<li>
+				<a href="/">HOME</a>
+			</li>
+			<li>
+				<a href="/wallets/">WALLETS</a>
+				<ul class="submenu">
+					<li><a href="/wallets/all/">SHOW ALL</a></li>
+					<li><a href="/wallets/new/">CREATE NEW</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="/update/">UPDATE</a>
+			</li>
+		</ul>
+		{% block last_update %}{% endblock %}
+	</div>
+
+	<div class="author">
+		Copyright &copy; 2021 | <a href="mailto: rutkowski.lukasz1@gmail.com" style="color: #c8f365 !important">Lukasz Rutkowski</a>
+	</div>
+	<div style="width: 100%; height: 60px; display: block"></div>
+{% block body %}{% endblock %}
+</body>
+</html>

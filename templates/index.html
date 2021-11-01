@@ -1,0 +1,41 @@
+{% extends "_layout.html" %}
+
+{% block head -%}
+	<title>Crypto Portfolio</title>
+{% endblock -%}
+
+{% block last_update %}
+	<div class="last_update">
+		UPDATED: <span style="font-weight: 600; color: #f2ff7e !important">{{ portfolio["UPDATE_DATE"] }}</span>
+	</div>
+{% endblock -%}
+
+{% block body %}
+{% for wallet in portfolio %}
+{% if wallet != "UPDATE_DATE" and "TOTAL" not in wallet %}
+
+	<div id="wallet">
+		<h1>- {{ wallet }} -</h1>
+		<h2>{{ "{:,.0f}".format(portfolio[wallet]["SUM_short"]) }} $</h2>
+
+		{% for crypto in portfolio[wallet] %}
+		{% if "SUM" not in crypto %}
+			<div id="coin">
+				<h1>*** {{ crypto }} ***</h1>
+				qty: &nbsp; &nbsp; <span style="color: #1eff00">{{ portfolio[wallet][crypto]["qty"] }}</span>
+				<br>
+				price: &nbsp; <span style="color: #00fff2">{{ portfolio[wallet][crypto]["price"] }}</span> $
+				<br>
+				value: &nbsp; <span style="color: #ff9900; font-weight: bold;">{{ portfolio[wallet][crypto]["value"] }}</span> $
+			</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+
+{% endif %}
+{% endfor %}
+
+<div id="total">
+	TOTAL: &nbsp;<span style="color: #00ff73">{{ "{:,.0f}".format(portfolio["TOTAL_USD"]) }} $</span> &nbsp;--> &nbsp;<span style="color: #eeff00">{{ "{:,.0f}".format(portfolio["TOTAL_PLN"]) }} PLN</span>
+</div>
+{% endblock %}

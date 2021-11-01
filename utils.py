@@ -4,6 +4,18 @@ from datetime import datetime
 from config import BITBAY_API_URL
 
 
+def get_price_from_coingecko(symbol):
+    coins = {
+        "CAKE": "pancakeswap-token",
+        "SAFEM": "safemoon",
+        "BNB": "binancecoin",
+        "ELON": "elongate"
+    }
+    r = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={coins[symbol]}&vs_currencies=usd", verify=True)
+    resp = r.json()
+    return resp[coins[symbol]]["usd"]
+
+
 def get_usdt_price(symbol):
     if symbol == "PLN":
         r = requests.get(f"{BITBAY_API_URL}/trading/transactions/USDT-PLN", verify=True)
@@ -13,7 +25,7 @@ def get_usdt_price(symbol):
     try:
         price = float(resp['items'][0]['r'])
     except:
-        price = 1.00001
+        price = get_price_from_coingecko(symbol)
     return price
 
 
@@ -33,8 +45,10 @@ def update_prices():
                         portfolio[wallet][item]["price"] = f"{price:.1f}"
                     elif price > 1:
                         portfolio[wallet][item]["price"] = f"{price:.2f}"
-                    else:
+                    elif price > 0.01:
                         portfolio[wallet][item]["price"] = f"{price:.4f}"
+                    else:
+                        portfolio[wallet][item]["price"] = f"{price:.8f}"
                     value = portfolio[wallet][item]['qty'] * price
                     portfolio[wallet]["SUM"] += value
                     portfolio[wallet][item]["value"] = int(value)

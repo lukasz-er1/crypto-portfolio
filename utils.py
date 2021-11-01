@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 from config import BITBAY_API_URL
 
+ignored_items = ["TOTAL_USD", "TOTAL_PLN", "UPDATE_DATE", "SUM", "SUM_short"]
+
 
 def get_price_from_coingecko(symbol):
     coins = {
@@ -61,3 +63,22 @@ def update_prices():
     with open("portfolio.json", "w") as f:
         json.dump(portfolio, f)
     return portfolio
+
+
+def make_summary(portfolio):
+    results = {}
+    total = 0
+    for wallet in portfolio:
+        if wallet not in ignored_items:
+            for coin in portfolio[wallet]:
+                if coin not in ignored_items:
+                    total += portfolio[wallet][coin]["value"]
+                    if coin in results:
+                        results[coin]["value"] += portfolio[wallet][coin]["value"]
+                    else:
+                        results[coin] = {}
+                        results[coin]["value"] = portfolio[wallet][coin]["value"]
+    for item in results:
+        results[item]["perc"] = (results[item]["value"] / total) * 100
+
+    return results

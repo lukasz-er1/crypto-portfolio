@@ -1,7 +1,7 @@
 from flask import render_template
 import json
 from config import app
-from utils import update_prices
+from utils import update_prices, make_summary
 
 
 @app.route('/', methods=['GET'])
@@ -11,10 +11,18 @@ def main():
     return render_template('index.html', portfolio=portfolio)
 
 
-@app.route('/update', methods=['GET'])
+@app.route('/update/', methods=['GET'])
 def update():
     portfolio = update_prices()
     return render_template('index.html', portfolio=portfolio)
+
+
+@app.route('/summary/', methods=['GET'])
+def summary():
+    with open('portfolio.json', 'r', encoding='utf-8') as portf:
+        portfolio = json.load(portf)
+    summary = make_summary(portfolio)
+    return render_template('summary.html', portfolio=portfolio, summary=summary)
 
 
 if __name__ == "__main__":

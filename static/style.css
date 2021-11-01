@@ -117,3 +117,13 @@ h2.walleth2 {
 	border: 1px solid rgba(145, 255, 0, 0.55);
 	border-radius: 10px;
 }
+
+a,
+a:visited {
+	color: yellow;
+	text-decoration: none;
+}
+a:hover {
+	color: red;
+	text-decoration: underline;
+}

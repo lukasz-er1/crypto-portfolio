@@ -1,0 +1,25 @@
+{% extends "_layout.html" %}
+
+{% block head -%}
+	<meta name="viewport" content="initial-scale=0.62">
+	<title>Analysis</title>
+{% endblock -%}
+
+{% block last_update %}
+	<div class="last_update">
+		UPDATED: <span style="font-weight: 600; color: #f2ff7e !important">{{ portfolio["UPDATE_DATE"] }}</span>
+	</div>
+{% endblock -%}
+
+{% block body %}
+    {% for coin in summary %}
+        <div id="coin">
+            <h1>* {{ coin }} *</h1>
+            value: &nbsp;<span style="color: #ff9900; font-weight: bold;">{{ summary[coin]['value'] }}</span> $
+            <br>
+            share: &nbsp;<span style="color: #fffb00;">{{ "{:,.0f}".format(summary[coin]['perc']) }}%</span>
+            <br>
+            gain/loss: <span style="color: #00ff4c;">+20%</span>
+        </div>
+    {% endfor %}
+{% endblock %}

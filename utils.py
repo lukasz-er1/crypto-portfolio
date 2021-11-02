@@ -15,12 +15,10 @@ def get_price_from_coingecko(symbol):
 
 
 def update_symbols_id_list_from_coingecko():
-    r = requests.get(f"https://api.coingecko.com/api/v3/coins/list", verify=True)
+    r = requests.get("https://api.coingecko.com/api/v3/coins/list", verify=True)
     coins_list = r.json()
     coins = {}
-    counter = -1
-    for _ in coins_list:
-        counter += 1
+    for counter, _ in enumerate(coins_list):
         try:
             coins[coins_list[counter]["symbol"]] = coins_list[counter]["id"]
         except:

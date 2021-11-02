@@ -1,7 +1,7 @@
 from flask import render_template
 import json
 from config import app
-from utils import update_prices, make_summary
+from utils import update_prices, make_summary, update_symbols_id_list_from_coingecko
 
 
 @app.route('/', methods=['GET'])
@@ -26,4 +26,5 @@ def summary():
 
 
 if __name__ == "__main__":
+    update_symbols_id_list_from_coingecko()
     app.run(host='192.168.0.30', port=5005, debug=True)

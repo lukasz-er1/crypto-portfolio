@@ -7,15 +7,26 @@ ignored_items = ["TOTAL_USD", "TOTAL_PLN", "UPDATE_DATE", "SUM", "SUM_short"]
 
 
 def get_price_from_coingecko(symbol):
-    coins = {
-        "CAKE": "pancakeswap-token",
-        "SAFEM": "safemoon",
-        "BNB": "binancecoin",
-        "ELON": "elongate"
-    }
-    r = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={coins[symbol]}&vs_currencies=usd", verify=True)
+    with open('coingecko_id_list.json', 'r', encoding='utf-8') as coingecko_id_list:
+        coin_list = json.load(coingecko_id_list)
+    r = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={coin_list[symbol.lower()]}&vs_currencies=usd", verify=True)
     resp = r.json()
-    return resp[coins[symbol]]["usd"]
+    return resp[coin_list[symbol.lower()]]["usd"]
+
+
+def update_symbols_id_list_from_coingecko():
+    r = requests.get(f"https://api.coingecko.com/api/v3/coins/list", verify=True)
+    coins_list = r.json()
+    coins = {}
+    counter = -1
+    for _ in coins_list:
+        counter += 1
+        try:
+            coins[coins_list[counter]["symbol"]] = coins_list[counter]["id"]
+        except:
+            continue
+    with open("coingecko_id_list.json", "w") as f:
+        json.dump(coins, f)
 
 
 def get_usdt_price(symbol):

@@ -13,7 +13,7 @@
 
 {% block body %}
 	{% for wallet in portfolio %}
-		{% if wallet != "UPDATE_DATE" and "TOTAL" not in wallet %}
+		{% if wallet != "UPDATE_DATE" and "TOTAL" not in wallet and "XXX" not in wallet %}
 			<div id="wallet">
 				<div style="float: left">
 					<h1 class="walleth1">* {{ wallet }} </h1>
@@ -38,6 +38,10 @@
 	{% endfor %}
 
 	<div id="total">
-		TOTAL: &nbsp;<span style="color: #00ff73">{{ "{:,.0f}".format(portfolio["TOTAL_USD"]) }} $</span> &nbsp;--> &nbsp;<span style="color: #eeff00">{{ "{:,.0f}".format(portfolio["TOTAL_PLN"]) }} PLN</span>
+		TOTAL: &nbsp;<span style="color: #00ff73">{{ "{:,.0f}".format(portfolio["TOTAL_USD"]) }} $</span> &nbsp;-->
+		&nbsp;<span style="color: #eeff00">{{ "{:,.0f}".format(portfolio["TOTAL_PLN"]) }} PLN</span>
+		<br><br>
+		ZYSK: &nbsp;<span style="color: #eeff00">{{ "{:,.0f}".format(portfolio["XXX"]["ZYSK"]) }} PLN</span> -->
+		<span style="color: #00ff73">{{ "{:.0f}".format(portfolio["XXX"]["PROCENT"]) }}%</span>
 	</div>
 {% endblock %}

@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)).rstrip("\\tests"))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)).rstrip("tests"))
 from app.utils import get_usd_price_from_coingecko
 
 

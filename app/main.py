@@ -2,14 +2,14 @@ from flask import render_template
 import json
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)).rstrip("\\app"))
-from app.config import app
+sys.path.append(os.path.dirname(os.path.abspath(__file__)).rstrip("app"))
+from app.config import app, APP_DIR
 from app.utils import update_prices, make_summary, update_symbols_id_list_from_coingecko
 
 
 @app.route('/', methods=['GET'])
 def main():
-    with open('portfolio.json', 'r', encoding='utf-8') as portf:
+    with open(f"{APP_DIR}/portfolio.json", "r", encoding="utf-8") as portf:
         portfolio = json.load(portf)
     return render_template('index.html', portfolio=portfolio)
 
@@ -22,7 +22,7 @@ def update():
 
 @app.route('/summary/', methods=['GET'])
 def summary():
-    with open('portfolio.json', 'r', encoding='utf-8') as portf:
+    with open(f"{APP_DIR}/portfolio.json", "r", encoding="utf-8") as portf:
         portfolio = json.load(portf)
     summary = make_summary(portfolio)
     return render_template('summary.html', portfolio=portfolio, summary=summary)

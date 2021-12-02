@@ -9,7 +9,7 @@ from app.utils import update_prices, make_summary, update_symbols_id_list_from_c
 
 @app.route('/', methods=['GET'])
 def main():
-    with open(f"{APP_DIR}/portfolio.json", "r", encoding="utf-8") as portf:
+    with open(os.path.join(APP_DIR, "portfolio.json"), "r", encoding="utf-8") as portf:
         portfolio = json.load(portf)
     return render_template('index.html', portfolio=portfolio)
 
@@ -22,7 +22,7 @@ def update():
 
 @app.route('/summary/', methods=['GET'])
 def summary():
-    with open(f"{APP_DIR}/portfolio.json", "r", encoding="utf-8") as portf:
+    with open(os.path.join(APP_DIR, "portfolio.json"), "r", encoding="utf-8") as portf:
         portfolio = json.load(portf)
     summary = make_summary(portfolio)
     return render_template('summary.html', portfolio=portfolio, summary=summary)

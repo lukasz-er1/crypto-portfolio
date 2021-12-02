@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 from datetime import datetime
 from app.config import BITBAY_API_URL, APP_DIR
 
@@ -7,7 +8,7 @@ ignored_items = ["TOTAL_USD", "TOTAL_PLN", "UPDATE_DATE", "SUM", "SUM_short", "X
 
 
 def get_usd_price_from_coingecko(symbol):
-    with open(f"{APP_DIR}/coingecko_id_list.json", "r", encoding="utf-8") as coingecko_id_list:
+    with open(os.path.join(APP_DIR, "coingecko_id_list.json"), "r", encoding="utf-8") as coingecko_id_list:
         coin_list = json.load(coingecko_id_list)
     r = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={coin_list[symbol.lower()]}&vs_currencies=usd", verify=True)
     resp = r.json()
@@ -24,10 +25,9 @@ def update_symbols_id_list_from_coingecko():
             coins[coins_list[counter]["symbol"]] = coins_list[counter]["id"]
         except:
             continue
-    with open(f"{APP_DIR}/coingecko_id_list.json", "w") as f:
+    with open(os.path.join(APP_DIR, "coingecko_id_list.json"), "w") as f:
         json.dump(coins, f)
     print("Coin list updated from coingecko.")
-    
 
 
 def get_usdt_price(symbol):
@@ -45,7 +45,7 @@ def get_usdt_price(symbol):
 
 
 def update_prices():
-    with open(f"{APP_DIR}/coin_list.json", "r", encoding="utf-8") as coin_list:
+    with open(os.path.join(APP_DIR, "coin_list.json"), "r", encoding="utf-8") as coin_list:
         portfolio = json.load(coin_list)
     portfolio["TOTAL_USD"] = 0
     for wallet in portfolio:
@@ -75,7 +75,7 @@ def update_prices():
     portfolio["TOTAL_PLN"] = portfolio["TOTAL_USD"] * usd_pln_rate
     portfolio["XXX"]["ZYSK"] = portfolio["TOTAL_PLN"] - portfolio["XXX"]["PLN"]
     portfolio["XXX"]["PROCENT"] = (portfolio["XXX"]["ZYSK"] / portfolio["XXX"]["PLN"]) * 100
-    with open(f"{APP_DIR}/portfolio.json", "w") as f:
+    with open(os.path.join(APP_DIR, "portfolio.json"), "w") as f:
         json.dump(portfolio, f)
 
     return portfolio
@@ -98,3 +98,8 @@ def make_summary(portfolio):
         results[item]["perc"] = (results[item]["value"] / total) * 100
 
     return results
+
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)).rstrip("app"))

@@ -64,10 +64,10 @@ def update_prices():
                         portfolio[wallet][item]["price"] = f"{price:.4f}"
                     else:
                         portfolio[wallet][item]["price"] = f"{price:.8f}"
-                    value = portfolio[wallet][item]['qty'] * price
+                    value = portfolio[wallet][item]["qty"] * price
                     portfolio[wallet]["SUM"] += value
                     portfolio[wallet][item]["value"] = int(value)
-            portfolio[wallet]["SUM_short"] = int(portfolio[wallet]['SUM'])
+            portfolio[wallet]["SUM_short"] = int(portfolio[wallet]["SUM"])
             portfolio["TOTAL_USD"] += int(portfolio[wallet]["SUM"])
     date = datetime.now()
     portfolio["UPDATE_DATE"] = str(date)[5:16]

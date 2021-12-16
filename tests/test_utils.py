@@ -28,7 +28,7 @@ def test_update_symbols_id_list_from_coingecko() -> None:
 
 def test_get_usd_price_from_coingecko_for_btc() -> None:
     """ Check if coingecko is returning proper value for 'BTC'. """
-    btc_price = get_usd_price_from_coingecko('BTC')
+    btc_price = get_usd_price_from_coingecko("BTC")
 
     assert btc_price > 100
     assert isinstance(btc_price, int)
@@ -36,7 +36,7 @@ def test_get_usd_price_from_coingecko_for_btc() -> None:
 
 def test_get_usd_price_from_coingecko_for_usdt() -> None:
     """ Check if coingecko is returning proper value for 'USDT'. """
-    usdt_price = get_usd_price_from_coingecko('USDT')
+    usdt_price = get_usd_price_from_coingecko("USDT")
 
     assert 1.05 > usdt_price > 0.95
     assert isinstance(usdt_price, float)
